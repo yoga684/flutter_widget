@@ -1,69 +1,193 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+    const String appTitle = '';
     return MaterialApp(
+      title: appTitle,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Container Text Example'),
+          title: const Text(appTitle),
         ),
-        body: Center(
-          child: Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(12),
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              gradient: const LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 0, 0, 0),
-                  Color.fromARGB(255, 60, 68, 158),
-                  Color.fromARGB(255, 60, 68, 158),
-                  Color.fromARGB(255, 0, 0, 0),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+        body: const SingleChildScrollView(
+          child: Column(
+            children: [
+                 ImageSection(
+    image: 'assets/images/songgoriti.jpg',
+  ),
+              TitleSection(
+                name: 'Songgoriti',
+                location: 'Batu, Jawa TImur',
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20), // Adjust padding as needed
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Left-align text
-                children: [
-                  const Text(
-                    'membuat container widget',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Divider(color: Colors.black),
-                  const Text(
-                    'halo rowrrrrrr bisa juga akhirnya buat container',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 40,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('jangan di klik'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              ButtonSection(),
+              TextSection(
+    description:
+        'Songgoriti adalah surga tersembunyi di Kota Batu yang menawarkan keindahan alam yang menakjubkan. Dengan udara sejuk pegunungan dan pemandangan hijau yang menyegarkan, Songgoriti menjadi destinasi sempurna untuk melepas penat. Nikmati sensasi berendam di pemandian air panas alami sambil menikmati keindahan alam sekitar.',
+  ),
+],
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class TitleSection extends StatelessWidget {
+  const TitleSection({
+    super.key,
+    required this.name,
+    required this.location,
+  });
+
+  final String name;
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          Expanded(
+            /*1*/
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /*2*/
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  location,
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          /*3*/
+          Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          const Text('41'),
+        ],
+      ),
+    );
+  }
+}
+
+class ButtonSection extends StatelessWidget {
+  const ButtonSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color color = Theme.of(context).primaryColor;
+    return SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ButtonWithText(
+            color: color,
+            icon: Icons.call,
+            label: 'CALL',
+          ),
+          ButtonWithText(
+            color: color,
+            icon: Icons.near_me,
+            label: 'ROUTE',
+          ),
+          ButtonWithText(
+            color: color,
+            icon: Icons.share,
+            label: 'SHARE',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextSection extends StatelessWidget {
+  const TextSection({
+    super.key,
+    required this.description,
+  });
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32),
+      child: Text(
+        description,
+        softWrap: true,
+      ),
+    );
+  }
+}
+
+class ButtonWithText extends StatelessWidget {
+  const ButtonWithText({
+    super.key,
+    required this.color,
+    required this.icon,
+    required this.label,
+  });
+
+  final Color color;
+  final IconData icon;
+  final String label;
+
+   @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: color,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ImageSection extends StatelessWidget {
+  const ImageSection({super.key, required this.image});
+
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      image,
+      width: 600,
+      height: 240,
+      fit: BoxFit.cover,
     );
   }
 }
